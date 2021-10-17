@@ -1,0 +1,38 @@
+{
+	"name": "dataflowCSVToSqlServer",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "arus_datalake_demo",
+						"type": "LinkedServiceReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "arus_datalake_demo",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "HashCompute"
+				},
+				{
+					"name": "LookupBrowserID"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "source(output(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'delimited',\n\tfileSystem: 'suraj',\n\tfolderPath: 'BrowserData',\n\tfileName: 'BrowserData.csv',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true) ~> source1\nsource1 derive(Hash = toBinary(md5(ReferrerDomain+UTMSource+UTMMedium+UTMCampaign+UTMContent)),\n\t\tBrowserID = toInteger(BrowserID),\n\t\tCreatedOn = currentDate(),\n\t\tUpdatedOn = currentDate()) ~> HashCompute\nSelect1, source1 lookup(Select1@BrowserID == source1@BrowserID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> LookupBrowserID\nHashCompute select(mapColumn(\n\t\tBrowserID,\n\t\tReferrerDomain,\n\t\tUTMSource,\n\t\tUTMMedium,\n\t\tUTMCampaign,\n\t\tUTMContent,\n\t\tHash,\n\t\tCreatedOn,\n\t\tUpdatedOn\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nLookupBrowserID sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delimited',\n\tfileSystem: 'suraj',\n\tfolderPath: 'BrowserData',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: false,\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}
