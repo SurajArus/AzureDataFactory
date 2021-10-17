@@ -1,0 +1,19 @@
+{
+	"name": "DeleteFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "arus_datalake_demo",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Delete.txt",
+				"folderPath": "Input",
+				"fileSystem": "suraj"
+			}
+		}
+	}
+}
