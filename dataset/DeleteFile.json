@@ -15,5 +15,6 @@
 				"fileSystem": "suraj"
 			}
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

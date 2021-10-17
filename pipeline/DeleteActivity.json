@@ -44,6 +44,8 @@
 		"folder": {
 			"name": "Test"
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2021-10-17T13:11:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
