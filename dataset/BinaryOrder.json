@@ -1,0 +1,19 @@
+{
+	"name": "BinaryOrder",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "arus_datalake_demo",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Product_2021-10-16",
+				"folderPath": "Input",
+				"fileSystem": "suraj"
+			}
+		}
+	}
+}
