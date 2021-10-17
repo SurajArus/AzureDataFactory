@@ -1,0 +1,27 @@
+{
+	"name": "triggerEventTriger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "HourlyandDailySalesData",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"FileName": "@triggerBody.fileName"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/suraj/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/f902f006-df21-4f72-ba7b-1bc535999d61/resourceGroups/adf-demo/providers/Microsoft.Storage/storageAccounts/aruslearnlake",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
