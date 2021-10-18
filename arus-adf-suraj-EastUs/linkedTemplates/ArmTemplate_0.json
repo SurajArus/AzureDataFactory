@@ -212,6 +212,73 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTableBrowserADF')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "BrowserID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ReferrerDomain",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMSource",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMMedium",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMCampaign",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMContent",
+						"type": "varchar"
+					},
+					{
+						"name": "CreatedOn",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CreatedBy",
+						"type": "varchar"
+					},
+					{
+						"name": "UpdatedOn",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "suraj",
+					"table": "BrowserADF"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDB')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/BinaryDataSource_File')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -636,48 +703,6 @@
 						"type": "String"
 					},
 					{
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/arus_datalake_demo')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/src_Student_Datalake')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "arus_datalake_demo",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Student.csv",
-						"folderPath": "Student",
-						"fileSystem": "suraj"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "StudentName",
-						"type": "String"
-					},
-					{
-						"name": "CourseName",
-						"type": "String"
-					},
-					{
-						"name": "CourseID",
 						"type": "String"
 					}
 				]

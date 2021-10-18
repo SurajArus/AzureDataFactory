@@ -109,9 +109,12 @@
 						},
 						{
 							"name": "ConditionalSplit1"
+						},
+						{
+							"name": "AlterRow1"
 						}
 					],
-					"script": "source(output(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource(output(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string,\n\t\tCreatedOn as timestamp,\n\t\tCreatedBy as string,\n\t\tUpdatedOn as timestamp,\n\t\tUpdatedBy as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> sourceEcommerceADF\nsource1 derive(CreatedOn = currentTimestamp(),\n\t\tUpdatedOn = currentTimestamp()) ~> DerivedColumn\nDerivedColumn, sourceEcommerceADF lookup(source1@BrowserID == sourceEcommerceADF@BrowserID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 split(isNull(sourceEcommerceADF@BrowserID),\n\t!isNull(sourceEcommerceADF@BrowserID)||source1@ReferrerDomain!=sourceEcommerceADF@ReferrerDomain||source1@UTMSource!=sourceEcommerceADF@UTMSource||source1@UTMMedium!=sourceEcommerceADF@UTMMedium||source1@UTMCampaign!=sourceEcommerceADF@UTMCampaign||source1@UTMContent!=sourceEcommerceADF@UTMCampaign,\n\tdisjoint: false) ~> ConditionalSplit1@(NewRecord, UpdateRecords, DeleteRecord)\nConditionalSplit1@NewRecord sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string,\n\t\tCreatedOn as timestamp,\n\t\tCreatedBy as string,\n\t\tUpdatedOn as timestamp,\n\t\tUpdatedBy as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tdateFormat:'dd-MM-yyyy',\n\ttimestampFormat:'MM/dd/yyyy HH:mm:ss',\n\tbooleanFormat: ['true', 'false'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tBrowserID = ConditionalSplit1@NewRecord@BrowserID,\n\t\tReferrerDomain = ConditionalSplit1@NewRecord@ReferrerDomain,\n\t\tUTMSource = ConditionalSplit1@NewRecord@UTMSource,\n\t\tUTMMedium = ConditionalSplit1@NewRecord@UTMMedium,\n\t\tUTMCampaign = ConditionalSplit1@NewRecord@UTMCampaign,\n\t\tUTMContent = ConditionalSplit1@NewRecord@UTMContent,\n\t\tCreatedOn = ConditionalSplit1@NewRecord@CreatedOn,\n\t\tUpdatedOn = ConditionalSplit1@NewRecord@UpdatedOn\n\t)) ~> sink1\nConditionalSplit1@UpdateRecords sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string,\n\t\tCreatedOn as timestamp,\n\t\tCreatedBy as string,\n\t\tUpdatedOn as timestamp,\n\t\tUpdatedBy as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tBrowserID = ConditionalSplit1@UpdateRecords@BrowserID,\n\t\tReferrerDomain = ConditionalSplit1@UpdateRecords@ReferrerDomain,\n\t\tUTMSource = ConditionalSplit1@UpdateRecords@UTMSource,\n\t\tUTMMedium = ConditionalSplit1@UpdateRecords@UTMMedium,\n\t\tUTMCampaign = ConditionalSplit1@UpdateRecords@UTMCampaign,\n\t\tUTMContent = ConditionalSplit1@UpdateRecords@UTMContent,\n\t\tUpdatedOn = ConditionalSplit1@UpdateRecords@UpdatedOn\n\t)) ~> sink2"
+					"script": "source(output(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource(output(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string,\n\t\tCreatedOn as timestamp,\n\t\tCreatedBy as string,\n\t\tUpdatedOn as timestamp,\n\t\tUpdatedBy as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> sourceEcommerceADF\nsource1 derive(CreatedOn = currentTimestamp(),\n\t\tUpdatedOn = currentTimestamp()) ~> DerivedColumn\nDerivedColumn, sourceEcommerceADF lookup(source1@BrowserID == sourceEcommerceADF@BrowserID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 split(isNull(sourceEcommerceADF@BrowserID),\n\t!isNull(sourceEcommerceADF@BrowserID) && (source1@ReferrerDomain!=sourceEcommerceADF@ReferrerDomain || source1@UTMSource!=sourceEcommerceADF@UTMSource || source1@UTMMedium!=sourceEcommerceADF@UTMMedium || source1@UTMCampaign!=sourceEcommerceADF@UTMCampaign || source1@UTMContent!=sourceEcommerceADF@UTMCampaign),\n\tdisjoint: false) ~> ConditionalSplit1@(NewRecord, UpdateRecords, DeleteRecord)\nConditionalSplit1@UpdateRecords alterRow(updateIf(true())) ~> AlterRow1\nConditionalSplit1@NewRecord sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string,\n\t\tCreatedOn as timestamp,\n\t\tCreatedBy as string,\n\t\tUpdatedOn as timestamp,\n\t\tUpdatedBy as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tdateFormat:'dd-MM-yyyy',\n\ttimestampFormat:'MM/dd/yyyy HH:mm:ss',\n\tbooleanFormat: ['true', 'false'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tBrowserID = ConditionalSplit1@NewRecord@BrowserID,\n\t\tReferrerDomain = ConditionalSplit1@NewRecord@ReferrerDomain,\n\t\tUTMSource = ConditionalSplit1@NewRecord@UTMSource,\n\t\tUTMMedium = ConditionalSplit1@NewRecord@UTMMedium,\n\t\tUTMCampaign = ConditionalSplit1@NewRecord@UTMCampaign,\n\t\tUTMContent = ConditionalSplit1@NewRecord@UTMContent,\n\t\tCreatedOn = ConditionalSplit1@NewRecord@CreatedOn,\n\t\tUpdatedOn = ConditionalSplit1@NewRecord@UpdatedOn\n\t)) ~> sink1\nAlterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string,\n\t\tCreatedOn as timestamp,\n\t\tCreatedBy as string,\n\t\tUpdatedOn as timestamp,\n\t\tUpdatedBy as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['BrowserID'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tBrowserID = ConditionalSplit1@UpdateRecords@BrowserID,\n\t\tReferrerDomain = ConditionalSplit1@UpdateRecords@ReferrerDomain,\n\t\tUTMSource = ConditionalSplit1@UpdateRecords@UTMSource,\n\t\tUTMMedium = ConditionalSplit1@UpdateRecords@UTMMedium,\n\t\tUTMCampaign = ConditionalSplit1@UpdateRecords@UTMCampaign,\n\t\tUTMContent = ConditionalSplit1@UpdateRecords@UTMContent,\n\t\tUpdatedOn = ConditionalSplit1@UpdateRecords@UpdatedOn\n\t)) ~> sink2"
 				}
 			},
 			"dependsOn": []
@@ -239,6 +242,55 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SqlServerTable2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipelineBrowser')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dataflow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sourceEcommerceADF": {},
+									"sink1": {},
+									"sink2": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
 			]
 		},
 		{
@@ -535,55 +587,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipelineBrowser')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dataflow1",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow1",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sourceEcommerceADF": {},
-									"sink1": {},
-									"sink2": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
-			]
 		}
 	]
 }
