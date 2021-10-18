@@ -75,15 +75,6 @@
 					"error_linkedService_accountKey": {
 						"value": "[parameters('error_linkedService_accountKey')]"
 					},
-					"SqlServer1_connectionString": {
-						"value": "[parameters('SqlServer1_connectionString')]"
-					},
-					"SqlServer2_connectionString": {
-						"value": "[parameters('SqlServer2_connectionString')]"
-					},
-					"SqlServerEcommerceDWHADF_connectionString": {
-						"value": "[parameters('SqlServerEcommerceDWHADF_connectionString')]"
-					},
 					"arus_datalake_demo_properties_typeProperties_url": {
 						"value": "[parameters('arus_datalake_demo_properties_typeProperties_url')]"
 					},
@@ -107,11 +98,40 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"SqlServer1_connectionString": {
+						"value": "[parameters('SqlServer1_connectionString')]"
+					},
+					"SqlServer2_connectionString": {
+						"value": "[parameters('SqlServer2_connectionString')]"
+					},
+					"SqlServerEcommerceDWHADF_connectionString": {
+						"value": "[parameters('SqlServerEcommerceDWHADF_connectionString')]"
 					}
 				}
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'arus-adf-suraj-EastUs_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "arus-adf-suraj-EastUs_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'arus-adf-suraj-EastUs_ArmTemplate_1')]"
 			]
 		}
 	]

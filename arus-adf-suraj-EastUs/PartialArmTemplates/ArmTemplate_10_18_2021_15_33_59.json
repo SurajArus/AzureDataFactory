@@ -1,0 +1,547 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "arus-adf-suraj-EastUs"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pipelineCopy')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "BinaryOrder",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "BinarydestOrder",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "Test"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/BinaryOrder')]",
+				"[concat(variables('factoryId'), '/datasets/BinarydestOrder')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipelineCopyEcommerce')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data Browser",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "BrowserID",
+											"type": "Int16",
+											"physicalType": "smallint"
+										},
+										"sink": {
+											"name": "BrowserID",
+											"type": "Int16",
+											"physicalType": "smallint"
+										}
+									},
+									{
+										"source": {
+											"name": "ReferrerDomain",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ReferrerDomain",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UTMSource",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UTMSource",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UTMMedium",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UTMMedium",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UTMCampaign",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UTMCampaign",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UTMContent",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UTMContent",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SqlServerEcommerce",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SqlServerEcommerce')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlBrowser')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "BrowserID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ReferrerDomain",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMSource",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMMedium",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMCampaign",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMContent",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "suraj",
+					"table": "Browser"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "BrowserID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ReferrerDomain",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMSource",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMMedium",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMCampaign",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMContent",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "suraj",
+					"table": "Browser"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BinaryOrder')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "arus_datalake_demo",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Product_2021-10-16",
+						"folderPath": "Input",
+						"fileSystem": "suraj"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BinarydestOrder')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "arus_datalake_demo",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "Input/472550f3-1321-4246-a7d4-46bef8909ace",
+						"fileSystem": "suraj"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerEcommerce')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "BrowserID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ReferrerDomain",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMSource",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMMedium",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMCampaign",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMContent",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "ecomm",
+					"table": "Browser"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlBrowser",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTableBrowserADF",
+								"type": "DatasetReference"
+							},
+							"name": "sourceEcommerceADF"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTableBrowserADF",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTableBrowserADF",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedColumn"
+						},
+						{
+							"name": "Lookup1"
+						},
+						{
+							"name": "ConditionalSplit1"
+						}
+					],
+					"script": "source(output(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource(output(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string,\n\t\tCreatedOn as timestamp,\n\t\tCreatedBy as string,\n\t\tUpdatedOn as timestamp,\n\t\tUpdatedBy as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> sourceEcommerceADF\nsource1 derive(CreatedOn = currentTimestamp(),\n\t\tUpdatedOn = currentTimestamp()) ~> DerivedColumn\nDerivedColumn, sourceEcommerceADF lookup(source1@BrowserID == sourceEcommerceADF@BrowserID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 split(isNull(sourceEcommerceADF@BrowserID),\n\t!isNull(sourceEcommerceADF@BrowserID)&&source1@ReferrerDomain!=sourceEcommerceADF@ReferrerDomain&&source1@UTMSource!=sourceEcommerceADF@UTMSource&&source1@UTMMedium!=sourceEcommerceADF@UTMMedium&&source1@UTMCampaign!=sourceEcommerceADF@UTMCampaign&&source1@UTMContent!=sourceEcommerceADF@UTMCampaign,\n\tdisjoint: false) ~> ConditionalSplit1@(NewRecord, UpdateRecords, DeleteRecord)\nConditionalSplit1@NewRecord sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string,\n\t\tCreatedOn as timestamp,\n\t\tCreatedBy as string,\n\t\tUpdatedOn as timestamp,\n\t\tUpdatedBy as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tdateFormat:'dd-MM-yyyy',\n\ttimestampFormat:'MM/dd/yyyy HH:mm:ss',\n\tbooleanFormat: ['true', 'false'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tBrowserID = ConditionalSplit1@NewRecord@BrowserID,\n\t\tReferrerDomain = ConditionalSplit1@NewRecord@ReferrerDomain,\n\t\tUTMSource = ConditionalSplit1@NewRecord@UTMSource,\n\t\tUTMMedium = ConditionalSplit1@NewRecord@UTMMedium,\n\t\tUTMCampaign = ConditionalSplit1@NewRecord@UTMCampaign,\n\t\tUTMContent = ConditionalSplit1@NewRecord@UTMContent,\n\t\tCreatedOn = ConditionalSplit1@NewRecord@CreatedOn,\n\t\tUpdatedOn = ConditionalSplit1@NewRecord@UpdatedOn\n\t)) ~> sink1\nConditionalSplit1@UpdateRecords sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tBrowserID as integer,\n\t\tReferrerDomain as string,\n\t\tUTMSource as string,\n\t\tUTMMedium as string,\n\t\tUTMCampaign as string,\n\t\tUTMContent as string,\n\t\tCreatedOn as timestamp,\n\t\tCreatedBy as string,\n\t\tUpdatedOn as timestamp,\n\t\tUpdatedBy as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tBrowserID = ConditionalSplit1@UpdateRecords@BrowserID,\n\t\tReferrerDomain = ConditionalSplit1@UpdateRecords@ReferrerDomain,\n\t\tUTMSource = ConditionalSplit1@UpdateRecords@UTMSource,\n\t\tUTMMedium = ConditionalSplit1@UpdateRecords@UTMMedium,\n\t\tUTMCampaign = ConditionalSplit1@UpdateRecords@UTMCampaign,\n\t\tUTMContent = ConditionalSplit1@UpdateRecords@UTMContent,\n\t\tUpdatedOn = ConditionalSplit1@UpdateRecords@UpdatedOn\n\t)) ~> sink2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlBrowser')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTableBrowserADF')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTableBrowserADF')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "BrowserID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "ReferrerDomain",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMSource",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMMedium",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMCampaign",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMContent",
+						"type": "varchar"
+					},
+					{
+						"name": "CreatedOn",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CreatedBy",
+						"type": "varchar"
+					},
+					{
+						"name": "UpdatedOn",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "suraj",
+					"table": "BrowserADF"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipelineBrowser')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dataflow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference"
+							},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+			]
+		}
+	]
+}
