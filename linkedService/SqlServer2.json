@@ -6,7 +6,7 @@
 		"type": "SqlServer",
 		"typeProperties": {
 			"connectionString": "integrated security=False;data source=SURAJ\\SURAJ001;initial catalog=Test;user id=sa",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3OTg3ZTE4Mi00MDA0LTRjZGUtODA0Yy02Y2RlYjM3OTk3MzYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI5ZWVjODA0Ny0wMDNhLTQxYzQtYjdkYS1lNTI2MjU0ZTExNzciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "arus-suraj-EastUs-ir",
