@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlBrowser",
+	"name": "AzureSqlTableBrowserADF",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDB",
@@ -32,11 +32,31 @@
 			{
 				"name": "UTMContent",
 				"type": "varchar"
+			},
+			{
+				"name": "CreatedOn",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CreatedBy",
+				"type": "varchar"
+			},
+			{
+				"name": "UpdatedOn",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "UpdatedBy",
+				"type": "varchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "suraj",
-			"table": "Browser"
+			"table": "BrowserADF"
 		}
 	}
 }
