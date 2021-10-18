@@ -1,0 +1,42 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BrowserID",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "ReferrerDomain",
+				"type": "varchar"
+			},
+			{
+				"name": "UTMSource",
+				"type": "varchar"
+			},
+			{
+				"name": "UTMMedium",
+				"type": "varchar"
+			},
+			{
+				"name": "UTMCampaign",
+				"type": "varchar"
+			},
+			{
+				"name": "UTMContent",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "suraj",
+			"table": "Browser"
+		}
+	}
+}

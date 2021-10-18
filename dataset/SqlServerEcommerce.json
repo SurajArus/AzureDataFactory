@@ -1,0 +1,42 @@
+{
+	"name": "SqlServerEcommerce",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "BrowserID",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "ReferrerDomain",
+				"type": "varchar"
+			},
+			{
+				"name": "UTMSource",
+				"type": "varchar"
+			},
+			{
+				"name": "UTMMedium",
+				"type": "varchar"
+			},
+			{
+				"name": "UTMCampaign",
+				"type": "varchar"
+			},
+			{
+				"name": "UTMContent",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ecomm",
+			"table": "Browser"
+		}
+	}
+}
