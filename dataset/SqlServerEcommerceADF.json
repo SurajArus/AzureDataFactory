@@ -1,0 +1,15 @@
+{
+	"name": "SqlServerEcommerceADF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerEcommerceADF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Ecommerce"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
