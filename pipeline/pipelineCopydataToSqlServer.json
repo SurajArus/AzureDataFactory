@@ -50,8 +50,13 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "SqlServerEcommerce",
-						"type": "DatasetReference"
+						"referenceName": "SqlServerEcommerceADF",
+						"type": "DatasetReference",
+						"parameters": {
+							"dbnamefromSURAJ\\SURAJ001": "EcommerceADF",
+							"schemaname": "src",
+							"tablename": "Orders"
+						}
 					}
 				]
 			}
