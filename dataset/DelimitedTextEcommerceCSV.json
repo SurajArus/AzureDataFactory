@@ -36,7 +36,23 @@
 				"type": "String"
 			},
 			{
-				"name": "Name",
+				"name": "Handle",
+				"type": "String"
+			},
+			{
+				"name": "Title",
+				"type": "String"
+			},
+			{
+				"name": "Vendor",
+				"type": "String"
+			},
+			{
+				"name": "Type",
+				"type": "String"
+			},
+			{
+				"name": "Tags",
 				"type": "String"
 			},
 			{
@@ -48,167 +64,47 @@
 				"type": "String"
 			},
 			{
-				"name": "Cancelled At",
+				"name": "Status",
 				"type": "String"
 			},
 			{
-				"name": "Cancel: Reason",
+				"name": "Published",
 				"type": "String"
 			},
 			{
-				"name": "Currency",
+				"name": "Variant ID",
 				"type": "String"
 			},
 			{
-				"name": "Source",
+				"name": "Option1 Name",
 				"type": "String"
 			},
 			{
-				"name": "Price: Total Line Items",
+				"name": "Option1 Value",
 				"type": "String"
 			},
 			{
-				"name": "Price: Total Refund",
+				"name": "Variant SKU",
 				"type": "String"
 			},
 			{
-				"name": "Price: Total",
+				"name": "Variant Barcode",
 				"type": "String"
 			},
 			{
-				"name": "Payment: Status",
+				"name": "Variant Price",
 				"type": "String"
 			},
 			{
-				"name": "Payment: Processing Method",
+				"name": "Variant Compare At Price",
 				"type": "String"
 			},
 			{
-				"name": "Customer: ID",
+				"name": "Variant Inventory Qty",
 				"type": "String"
 			},
 			{
-				"name": "Customer: Orders Count",
-				"type": "String"
-			},
-			{
-				"name": "Customer: Total Spent",
-				"type": "String"
-			},
-			{
-				"name": "Shipping: Zip",
-				"type": "String"
-			},
-			{
-				"name": "Shipping: Province",
-				"type": "String"
-			},
-			{
-				"name": "Shipping: Country",
-				"type": "String"
-			},
-			{
-				"name": "Browser: Referrer Domain",
-				"type": "String"
-			},
-			{
-				"name": "Browser: UTM Source",
-				"type": "String"
-			},
-			{
-				"name": "Browser: UTM Medium",
-				"type": "String"
-			},
-			{
-				"name": "Browser: UTM Campaign",
-				"type": "String"
-			},
-			{
-				"name": "Browser: UTM Content",
-				"type": "String"
-			},
-			{
-				"name": "Top Row",
-				"type": "String"
-			},
-			{
-				"name": "Line: Type",
-				"type": "String"
-			},
-			{
-				"name": "Line: Product ID",
-				"type": "String"
-			},
-			{
-				"name": "Line: Variant ID",
-				"type": "String"
-			},
-			{
-				"name": "Line: Quantity",
-				"type": "String"
-			},
-			{
-				"name": "Line: Price",
-				"type": "String"
-			},
-			{
-				"name": "Line: Discount",
-				"type": "String"
-			},
-			{
-				"name": "Line: Gift Card",
-				"type": "String"
-			},
-			{
-				"name": "Line: Fulfillment Status",
-				"type": "String"
-			},
-			{
-				"name": "Line: Variant SKU",
-				"type": "String"
-			},
-			{
-				"name": "Line: Variant Cost",
-				"type": "String"
-			},
-			{
-				"name": "Refund: Created At",
-				"type": "String"
-			},
-			{
-				"name": "Refund: Note",
-				"type": "String"
-			},
-			{
-				"name": "Refund: Restock",
-				"type": "String"
-			},
-			{
-				"name": "Transaction: Amount",
-				"type": "String"
-			},
-			{
-				"name": "Transaction: Message",
-				"type": "String"
-			},
-			{
-				"name": "Transaction: Gateway",
-				"type": "String"
-			},
-			{
-				"name": "Fulfillment: Status",
-				"type": "String"
-			},
-			{
-				"name": "Fulfillment: Created At",
-				"type": "String"
-			},
-			{
-				"name": "Fulfillment: Updated At",
-				"type": "String"
-			},
-			{
-				"name": "Fulfillment: Shipment Status",
+				"name": "Variant Cost",
 				"type": "String"
 			}
 		]
