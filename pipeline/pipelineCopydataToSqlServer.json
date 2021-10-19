@@ -26,7 +26,18 @@
 							"type": "DelimitedTextReadSettings"
 						}
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "SqlServerSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
 					{
@@ -35,6 +46,12 @@
 						"parameters": {
 							"FileName": "Orders_2021-07-29_152925.csv"
 						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SqlServerEcommerce",
+						"type": "DatasetReference"
 					}
 				]
 			}

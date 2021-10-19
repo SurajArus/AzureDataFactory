@@ -3,13 +3,40 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SqlServerEcommerceADF",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"dbname": {
+					"value": "@dataset().dbnamefromSURAJ\\SURAJ001",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"dbnamefromSURAJ\\SURAJ001": {
+				"type": "string"
+			},
+			"schemaname": {
+				"type": "string"
+			},
+			"tablename": {
+				"type": "string"
+			}
 		},
 		"folder": {
 			"name": "Ecommerce"
 		},
 		"annotations": [],
 		"type": "SqlServerTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().schemaname",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
+		}
 	}
 }
