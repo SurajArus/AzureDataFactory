@@ -3,18 +3,9 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SqlServerEcommerceADF",
-			"type": "LinkedServiceReference",
-			"parameters": {
-				"dbname": {
-					"value": "@dataset().dbnamefromSURAJ\\SURAJ001",
-					"type": "Expression"
-				}
-			}
+			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"dbnamefromSURAJ\\SURAJ001": {
-				"type": "string"
-			},
 			"schemaname": {
 				"type": "string"
 			},
