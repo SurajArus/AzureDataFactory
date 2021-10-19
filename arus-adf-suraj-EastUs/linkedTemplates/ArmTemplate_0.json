@@ -499,6 +499,227 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedTextEcommerceCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "arus_datalake_demo",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FileName": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Ecommerce"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().FileName",
+							"type": "Expression"
+						},
+						"folderPath": "Ecommerce",
+						"fileSystem": "suraj"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ID",
+						"type": "String"
+					},
+					{
+						"name": "Name",
+						"type": "String"
+					},
+					{
+						"name": "Created At",
+						"type": "String"
+					},
+					{
+						"name": "Updated At",
+						"type": "String"
+					},
+					{
+						"name": "Cancelled At",
+						"type": "String"
+					},
+					{
+						"name": "Cancel: Reason",
+						"type": "String"
+					},
+					{
+						"name": "Currency",
+						"type": "String"
+					},
+					{
+						"name": "Source",
+						"type": "String"
+					},
+					{
+						"name": "Price: Total Line Items",
+						"type": "String"
+					},
+					{
+						"name": "Price: Total Refund",
+						"type": "String"
+					},
+					{
+						"name": "Price: Total",
+						"type": "String"
+					},
+					{
+						"name": "Payment: Status",
+						"type": "String"
+					},
+					{
+						"name": "Payment: Processing Method",
+						"type": "String"
+					},
+					{
+						"name": "Customer: ID",
+						"type": "String"
+					},
+					{
+						"name": "Customer: Orders Count",
+						"type": "String"
+					},
+					{
+						"name": "Customer: Total Spent",
+						"type": "String"
+					},
+					{
+						"name": "Shipping: Zip",
+						"type": "String"
+					},
+					{
+						"name": "Shipping: Province",
+						"type": "String"
+					},
+					{
+						"name": "Shipping: Country",
+						"type": "String"
+					},
+					{
+						"name": "Browser: Referrer Domain",
+						"type": "String"
+					},
+					{
+						"name": "Browser: UTM Source",
+						"type": "String"
+					},
+					{
+						"name": "Browser: UTM Medium",
+						"type": "String"
+					},
+					{
+						"name": "Browser: UTM Campaign",
+						"type": "String"
+					},
+					{
+						"name": "Browser: UTM Content",
+						"type": "String"
+					},
+					{
+						"name": "Top Row",
+						"type": "String"
+					},
+					{
+						"name": "Line: Type",
+						"type": "String"
+					},
+					{
+						"name": "Line: Product ID",
+						"type": "String"
+					},
+					{
+						"name": "Line: Variant ID",
+						"type": "String"
+					},
+					{
+						"name": "Line: Quantity",
+						"type": "String"
+					},
+					{
+						"name": "Line: Price",
+						"type": "String"
+					},
+					{
+						"name": "Line: Discount",
+						"type": "String"
+					},
+					{
+						"name": "Line: Gift Card",
+						"type": "String"
+					},
+					{
+						"name": "Line: Fulfillment Status",
+						"type": "String"
+					},
+					{
+						"name": "Line: Variant SKU",
+						"type": "String"
+					},
+					{
+						"name": "Line: Variant Cost",
+						"type": "String"
+					},
+					{
+						"name": "Refund: Created At",
+						"type": "String"
+					},
+					{
+						"name": "Refund: Note",
+						"type": "String"
+					},
+					{
+						"name": "Refund: Restock",
+						"type": "String"
+					},
+					{
+						"name": "Transaction: Amount",
+						"type": "String"
+					},
+					{
+						"name": "Transaction: Message",
+						"type": "String"
+					},
+					{
+						"name": "Transaction: Gateway",
+						"type": "String"
+					},
+					{
+						"name": "Fulfillment: Status",
+						"type": "String"
+					},
+					{
+						"name": "Fulfillment: Created At",
+						"type": "String"
+					},
+					{
+						"name": "Fulfillment: Updated At",
+						"type": "String"
+					},
+					{
+						"name": "Fulfillment: Shipment Status",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/arus_datalake_demo')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dest_EmployeeStagingJSON_SQLServer')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -668,44 +889,6 @@
 						}
 					}
 				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/arus_datalake_demo')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/src_Emplyoess_Datalake')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "arus_datalake_demo",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "Employee",
-						"fileSystem": "raw"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/arus_datalake_demo')]"

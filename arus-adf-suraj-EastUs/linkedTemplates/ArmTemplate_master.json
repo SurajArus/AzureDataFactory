@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer2'"
 		},
+		"SqlServerEcommerceADF_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServerEcommerceADF'"
+		},
 		"SqlServerEcommerceDWHADF_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServerEcommerceDWHADF'"
@@ -104,6 +108,9 @@
 					},
 					"SqlServer2_connectionString": {
 						"value": "[parameters('SqlServer2_connectionString')]"
+					},
+					"SqlServerEcommerceADF_connectionString": {
+						"value": "[parameters('SqlServerEcommerceADF_connectionString')]"
 					},
 					"SqlServerEcommerceDWHADF_connectionString": {
 						"value": "[parameters('SqlServerEcommerceDWHADF_connectionString')]"
