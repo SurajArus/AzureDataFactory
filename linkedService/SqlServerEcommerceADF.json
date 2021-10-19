@@ -1,0 +1,21 @@
+{
+	"name": "SqlServerEcommerceADF",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"dbname": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=SURAJ\\SURAJ001;initial catalog=@{linkedService().dbname};user id=sa",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmZWM4ODJjMi0zNzIyLTQxNjEtYjk3MC1iY2Q1ZGZhZWExMTkiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "arus-suraj-EastUs-ir",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
