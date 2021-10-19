@@ -538,6 +538,8 @@
 								"type": "SqlServerSink"
 							},
 							"enableStaging": false,
+							"enableSkipIncompatibleRow": false,
+							"validateDataConsistency": false,
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
@@ -555,12 +557,60 @@
 									},
 									{
 										"source": {
-											"name": "Name",
+											"name": "Handle",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Name",
+											"name": "Handle",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Title",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Title",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Vendor",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Vendor",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Type",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Tags",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Tags",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -591,492 +641,132 @@
 									},
 									{
 										"source": {
-											"name": "Cancelled At",
+											"name": "Status",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Cancelled At",
+											"name": "Status",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Cancel: Reason",
+											"name": "Published",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Cancel  Reason",
+											"name": "Published",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Currency",
+											"name": "Variant ID",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Currency",
+											"name": "Variant ID",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Source",
+											"name": "Option1 Name",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Source",
+											"name": "Option1 Name",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Price: Total Line Items",
+											"name": "Option1 Value",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Price  Total Line Items",
+											"name": "Option1 Value",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Price: Total Refund",
+											"name": "Variant SKU",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Price  Total Refund",
+											"name": "Variant SKU",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Price: Total",
+											"name": "Variant Barcode",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Price  Total",
+											"name": "Variant Barcode",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Payment: Status",
+											"name": "Variant Price",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Payment  Status",
+											"name": "Variant Price",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Payment: Processing Method",
+											"name": "Variant Compare At Price",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Payment  Processing Method",
+											"name": "Variant Compare At Price",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Customer: ID",
+											"name": "Variant Inventory Qty",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Customer  ID",
+											"name": "Variant Inventory Qty",
 											"type": "String",
 											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "Customer: Orders Count",
+											"name": "Variant Cost",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Customer  Orders Count",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Customer: Total Spent",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Customer  Total Spent",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Shipping: Zip",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Shipping  Zip",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Shipping: Province",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Shipping  Province",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Shipping: Country",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Shipping  Country",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Browser: Referrer Domain",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Browser  Referrer Domain",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Browser: UTM Source",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Browser  UTM Source",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Browser: UTM Medium",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Browser  UTM Medium",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Browser: UTM Campaign",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Browser  UTM Campaign",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Browser: UTM Content",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Browser  UTM Content",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Top Row",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Top Row",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Type",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Type",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Product ID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Product ID",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Variant ID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Variant ID",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Quantity",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Quantity",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Price",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Price",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Discount",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Discount",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Gift Card",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Gift Card",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Fulfillment Status",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Fulfillment Status",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Variant SKU",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Variant SKU",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Line: Variant Cost",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Line  Variant Cost",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Refund: Created At",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Refund  Created At",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Refund: Note",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Refund  Note",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Refund: Restock",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Refund  Restock",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Transaction: Amount",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Transaction  Amount",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Transaction: Message",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Transaction  Message",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Transaction: Gateway",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Transaction  Gateway",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Fulfillment: Status",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Fulfillment  Status",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Fulfillment: Created At",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Fulfillment  Created At",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Fulfillment: Updated At",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Fulfillment  Updated At",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Fulfillment: Shipment Status",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Fulfillment  Shipment Status",
+											"name": "Variant Cost",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -1094,7 +784,7 @@
 								"referenceName": "DelimitedTextEcommerceCSV",
 								"type": "DatasetReference",
 								"parameters": {
-									"FileName": "Orders_2021-07-29_152925.csv"
+									"FileName": "Products_2021-07-28_204140.csv"
 								}
 							}
 						],
@@ -1104,7 +794,7 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"schemaname": "src",
-									"tablename": "Orders"
+									"tablename": "Product"
 								}
 							}
 						]
