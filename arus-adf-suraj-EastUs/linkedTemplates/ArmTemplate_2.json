@@ -1658,13 +1658,34 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Execute_pipeline",
+						"name": "Execute_pipeline_src",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
 								"referenceName": "pipelineCopydataToSqlServer",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Execute Pipeline_ecomm",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Execute_pipeline_src",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Load_src_ecomm",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
