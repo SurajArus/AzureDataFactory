@@ -566,7 +566,7 @@
 				}
 			},
 			{
-				"name": "Stored procedure1",
+				"name": "Stored procedureSource",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
@@ -583,7 +583,89 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ecomm].[usp_Merge_Source]",
+					"storedProcedureParameters": {
+						"CreatedBy": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"CreatedOn": {
+							"value": "@utcnow()",
+							"type": "DateTime"
+						},
+						"UpdatedBy": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"UpdatedOn": {
+							"value": "@utcnow()",
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServerEcommerceADF",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Stored procedureOrder",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Stored procedureSource",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ecomm].[usp_Merge_Orders]",
+					"storedProcedureParameters": {
+						"CreatedBy": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"CreatedOn": {
+							"value": "@utcnow()",
+							"type": "DateTime"
+						},
+						"UpdatedBy": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"UpdatedOn": {
+							"value": "@utcnow()",
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServerEcommerceADF",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"folder": {
