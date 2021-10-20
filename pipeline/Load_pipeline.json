@@ -1,0 +1,24 @@
+{
+	"name": "Load_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute_Load_src_ecomm_pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load_src_ecomm",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "Ecommerce"
+		},
+		"annotations": []
+	}
+}
