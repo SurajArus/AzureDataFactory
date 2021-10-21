@@ -28,7 +28,8 @@
 							"schemaname": "dbo",
 							"tablename": "ListOfSP"
 						}
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -62,7 +63,16 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"storedProcedureName": "[dbo].[usp_ProcedureName]"
+								"storedProcedureName": "[dbo].[usp_ProcedureName]",
+								"storedProcedureParameters": {
+									"ProcedureName": {
+										"value": {
+											"value": "@item()",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
 							},
 							"linkedServiceName": {
 								"referenceName": "SqlServerEcommerceADF",
