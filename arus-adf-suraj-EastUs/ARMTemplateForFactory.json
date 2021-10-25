@@ -458,6 +458,62 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Load_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute_pipeline_src",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pipelineCopydataToSqlServer",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Execute Pipeline_ecomm",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Execute_pipeline_src",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Load_src_ecomm",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Ecommerce"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pipelineCopydataToSqlServer')]",
+				"[concat(variables('factoryId'), '/pipelines/Load_src_ecomm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Load_src_ecomm')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -755,7 +811,10 @@
 									"type": "String"
 								},
 								"UpdatedOn": {
-									"value": "@utcnow()",
+									"value": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									},
 									"type": "DateTime"
 								}
 							}
@@ -3545,6 +3604,107 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipelineTest')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT \n      [ProcedureName]\n    \n  FROM [EcommerceADF].[dbo].[ListOfSP]\n  WHERE Status = 1",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "SqlServerEcommerceADF",
+								"type": "DatasetReference",
+								"parameters": {
+									"schemaname": "dbo",
+									"tablename": "ListOfSP"
+								}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup1').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Stored procedure1",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[usp_ProcedureName]",
+										"storedProcedureParameters": {
+											"ProcedureName": {
+												"value": {
+													"value": "@item()",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SqlServerEcommerceADF",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Ecommerce"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SqlServerEcommerceADF')]",
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerEcommerceADF')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pl_wait_pipeline2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -4219,7 +4379,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "Customer"
+					"table": "TotalSale"
 				}
 			},
 			"dependsOn": [
@@ -4883,59 +5043,118 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Load_pipeline')]",
+			"name": "[concat(parameters('factoryName'), '/pipelineCopydatausingParameter')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Execute_pipeline_src",
-						"type": "ExecutePipeline",
+						"name": "Copy data1",
+						"type": "Copy",
 						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
-							"pipeline": {
-								"referenceName": "pipelineCopydataToSqlServer",
-								"type": "PipelineReference"
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": {
+									"value": "@concat('SELECT * FROM [dbo].[TotalSale] WHERE Region=''',pipeline().parameters.Region,'''','and Country=''',pipeline().parameters.Country,'''')",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "Execute Pipeline_ecomm",
-						"type": "ExecutePipeline",
-						"dependsOn": [
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
 							{
-								"activity": "Execute_pipeline_src",
-								"dependencyConditions": [
-									"Succeeded"
-								]
+								"referenceName": "SqlServerTable1",
+								"type": "DatasetReference",
+								"parameters": {}
 							}
 						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "Load_src_ecomm",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
+						"outputs": [
+							{
+								"referenceName": "DelimitedCSV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"parameters": {
+					"Region": {
+						"type": "string"
+					},
+					"Country": {
+						"type": "string"
+					}
+				},
 				"folder": {
-					"name": "Ecommerce"
+					"name": "Test"
 				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipelineCopydataToSqlServer')]",
-				"[concat(variables('factoryId'), '/pipelines/Load_src_ecomm')]"
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable1')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedCSV')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "arus_datalake_demo",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "output",
+						"fileSystem": "suraj"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/arus_datalake_demo')]"
 			]
 		}
 	]
